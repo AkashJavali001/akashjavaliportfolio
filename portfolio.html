@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Akash Javali — No-Code · UI/UX · Automation</title>
+
+  <!-- Google fonts (Inter & Poppins) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* === Color palette (user specified) === */
+    :root{
+      --bg: #121212;              /* charcoal black */
+      --text: #E0E0E0;            /* light gray */
+      --muted: #B0B0B0;           /* medium gray */
+      --border: #444444;          /* dark gray */
+      --accent: #888888;          /* soft gray */
+      --glass: rgba(255,255,255,0.03);
+      --container-max: 1100px;
+      --radius: 14px;
+    }
+
+    /* === Reset & base === */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      scroll-behavior:smooth;
+    }
+
+    a{color:var(--text); text-decoration:none}
+    img{max-width:100%; display:block}
+
+    .container{
+      max-width:var(--container-max);
+      margin:0 auto;
+      padding:48px 24px;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(18,18,18,0.6), rgba(18,18,18,0.35));
+      border-bottom:1px solid var(--border);
+      z-index:60;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background:linear-gradient(135deg,var(--glass), rgba(255,255,255,0.02));
+      border:1px solid var(--border);
+      display:grid;place-items:center;
+      font-weight:700;color:var(--text);
+      font-family:Poppins, Inter;
+      letter-spacing:0.6px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    .nav-links{display:flex; gap:18px; align-items:center;}
+    .nav-links a{color:var(--muted); font-size:14px}
+    .cta{
+      border:1px solid var(--border);
+      padding:10px 14px;
+      border-radius:10px;
+      background:transparent;
+      color:var(--text);
+      font-weight:600;
+      transition:all .22s ease;
+    }
+    .cta:hover{transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+
+    /* === Hero === */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:48px;
+      align-items:center;
+      padding:80px 0;
+    }
+
+    .eyebrow{color:var(--muted); font-size:13px; margin-bottom:14px}
+    h1{
+      font-family:Poppins, Inter;
+      font-size:44px;
+      margin:0 0 12px 0;
+      line-height:1.05;
+      letter-spacing: -0.6px;
+      display:flex; align-items:center; gap:12px;
+    }
+
+    /* subtle animated text effect on small word */
+    .headline-accent{
+      background: linear-gradient(90deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display:inline-block;
+      transform-origin:left center;
+      animation: pop 1.2s ease both;
+    }
+    @keyframes pop {
+      0% { transform: translateY(8px) scale(0.98); opacity:0 }
+      60% { transform: translateY(-6px) scale(1.02); opacity:1 }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    p.lead{color:var(--muted); margin:0 0 20px 0; max-width:48ch}
+    .hero-cta{display:flex; gap:12px; align-items:center}
+    .btn-primary{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:var(--text);
+      border:1px solid var(--border);
+      padding:12px 16px;
+      border-radius:12px;
+      font-weight:600;
+    }
+    .btn-ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px dashed rgba(255,255,255,0.03);
+      padding:10px 14px;border-radius:12px;
+    }
+
+    .profile-card{
+      border-radius:var(--radius);
+      padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid var(--border);
+    }
+
+    .profile-meta{display:flex; gap:14px; align-items:center}
+    .avatar{
+      width:72px;height:72px;border-radius:12px; background:linear-gradient(180deg,#1b1b1b,#101010);
+      border:1px solid var(--border); display:grid;place-items:center;font-weight:700;color:var(--text); font-family:Poppins;
+    }
+    .meta-title{font-weight:700; font-size:16px}
+    .meta-sub{color:var(--muted); font-size:13px}
+
+    .small-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .chip{
+      padding:8px 10px;border-radius:10px;border:1px solid var(--border);
+      background:rgba(255,255,255,0.01); color:var(--muted); font-size:13px;
+    }
+
+    /* === Sections === */
+    section{padding:64px 0; border-top:1px solid rgba(255,255,255,0.02)}
+    .section-title{display:flex; align-items:end; gap:12px}
+    .section-title h3{margin:0; font-size:20px; font-family:Poppins}
+    .section-desc{color:var(--muted); font-size:14px}
+
+    /* Projects grid */
+    .projects-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:18px;
+      border:1px solid var(--border);
+      transition:transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s;
+      overflow:hidden;
+    }
+    .card:hover{ transform: translateY(-8px) scale(1.01); box-shadow: 0 18px 50px rgba(0,0,0,0.7) }
+    .card h4{margin:0 0 8px 0}
+    .card p{color:var(--muted); margin:0 0 12px 0; font-size:14px}
+    .card .tags{display:flex; gap:8px; flex-wrap:wrap}
+    .tag{font-size:12px; color:var(--muted); border:1px solid var(--border); padding:6px 8px; border-radius:8px}
+
+    /* Skills & list style */
+    .skills-list{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
+    .skill-pill{padding:8px 12px; border-radius:999px; border:1px solid var(--border); color:var(--muted); font-size:13px}
+
+    /* Education & details */
+    .timeline{display:flex; flex-direction:column; gap:14px; margin-top:12px}
+    .timeline-item{padding:12px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,0.01); display:flex; justify-content:space-between; gap:12px}
+    .muted{color:var(--muted)}
+
+    /* Contact */
+    .contact-grid{display:grid; grid-template-columns: 1fr 360px; gap:18px}
+    form{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); padding:18px; border-radius:12px; border:1px solid var(--border)}
+    form label{display:block; font-size:13px; color:var(--muted); margin-bottom:6px}
+    input, textarea{
+      width:100%; padding:12px; border-radius:10px; background:transparent; border:1px solid var(--border); color:var(--text);
+      font-size:14px; resize:none;
+    }
+    button[type="submit"]{margin-top:10px; padding:10px 14px; border-radius:10px; border:1px solid var(--border); cursor:pointer}
+
+    footer{padding:28px 0; color:var(--muted); border-top:1px solid rgba(255,255,255,0.02); margin-top:48px; text-align:center}
+
+    /* === Reveal animation utilities (IntersectionObserver uses .in-view) === */
+    .reveal{opacity:0; transform:translateY(16px); transition: all 700ms cubic-bezier(.2,.9,.3,1);}
+    .reveal.in-view{opacity:1; transform:translateY(0);}
+
+    /* small typography flourish for hero name - letter spacing animation */
+    .name-small{
+      display:inline-block;
+      font-weight:800;
+      font-family:Poppins;
+      font-size:18px;
+      letter-spacing:0.6px;
+      background:linear-gradient(90deg, var(--text), var(--accent));
+      -webkit-background-clip:text; color:transparent;
+    }
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; padding:40px 0}
+      .contact-grid{grid-template-columns:1fr}
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">AJ</div>
+        <div>
+          <div style="font-weight:700">Akash Javali</div>
+          <div style="font-size:12px;color:var(--muted)">No-code · UI/UX · Automation</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
+        <a href="#contact" class="cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="eyebrow reveal">Information Science · No-code · Automation</div>
+        <h1 class="reveal">Hi — I'm <span class="headline-accent">Akash Javali</span></h1>
+        <p class="lead reveal">I build user-centered tech solutions using no-code platforms, automation tools, and clean UI/UX design. I develop practical projects — from ML-powered apps to workflow automations — that solve real problems and accelerate productivity.</p>
+
+        <div class="hero-cta reveal">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#contact" class="btn-ghost">Let's collaborate</a>
+        </div>
+
+        <div style="margin-top:28px" class="reveal">
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <div class="chip">MindCare - ML Emotion Detection</div>
+            <div class="chip">No-Code Automation (Zapier, n8n)</div>
+            <div class="chip">UI/UX (Figma)</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="profile-card reveal">
+        <div style="display:flex; gap:12px; align-items:center">
+          <div class="avatar">AJ</div>
+          <div>
+            <div class="meta-title">Akash Javali</div>
+            <div class="meta-sub">Information Science Student — No-code & Automation</div>
+          </div>
+        </div>
+
+        <div class="small-row" style="margin-top:14px">
+          <div class="chip">Email: <span style="color:var(--text); margin-left:6px">akashjavali297@gmail.com</span></div>
+          <div class="chip">Phone: <span style="color:var(--text); margin-left:6px">+91 88848 22189</span></div>
+          <div class="chip">LinkedIn</div>
+          <div class="chip">GitHub</div>
+        </div>
+        <div style="margin-top:12px;color:var(--muted); font-size:13px">
+          Bachelor of Engineering (Information Science) — Canara Engineering College (Grad. Oct 2026)
+        </div>
+      </aside>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-title reveal">
+        <h3>About</h3>
+        <div class="section-desc">A quick snapshot of my focus and approach</div>
+      </div>
+
+      <div style="margin-top:18px" class="reveal">
+        <p style="color:var(--muted); max-width:80ch">
+          I’m passionate about creating simple, impactful technology using no-code tools and automation. My work blends UI/UX design with practical automation solutions — for example, MindCare (an app integrating ML emotion detection) and several Zapier/n8n workflows that reduce manual work for student teams. I enjoy rapid prototyping, improving product usability, and collaborating with creative teams to turn ideas into usable products.
+        </p>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-title reveal">
+        <h3>Projects</h3>
+        <div class="section-desc">Featured work — case studies and experiments</div>
+      </div>
+
+      <div class="projects-grid" style="margin-top:16px">
+        <article class="card reveal">
+          <h4>MindCare — Mental Wellness App</h4>
+          <p>Developed an emotion-detection ML model and integrated backend API routing for a mental wellness web app. Focus: practical classification and user-friendly interface for in-app mood reporting and trends.</p>
+          <div class="tags">
+            <span class="tag">Machine Learning</span>
+            <span class="tag">Backend API</span>
+            <span class="tag">UI/UX</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h4>No-Code Automation Workflows</h4>
+          <p>Designed and implemented automation workflows using Zapier and n8n to streamline repetitive tasks and improve productivity for small teams and student projects.</p>
+          <div class="tags">
+            <span class="tag">Zapier</span>
+            <span class="tag">n8n</span>
+            <span class="tag">Process Design</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h4>UI/UX — Design Experiments</h4>
+          <p>Figma-based prototypes for onboarding flows, mobile-first designs, and microinteraction demos aimed at improved conversion and retention.</p>
+          <div class="tags">
+            <span class="tag">Figma</span>
+            <span class="tag">Prototyping</span>
+            <span class="tag">Design Systems</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-title reveal">
+        <h3>Skills</h3>
+        <div class="section-desc">Tools and languages I use</div>
+      </div>
+
+      <div class="reveal" style="margin-top:14px">
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:220px;">
+            <h4 style="margin:0 0 8px 0">Programming & Web</h4>
+            <div class="skills-list">
+              <span class="skill-pill">Java</span>
+              <span class="skill-pill">Python (basic)</span>
+              <span class="skill-pill">HTML</span>
+              <span class="skill-pill">CSS</span>
+            </div>
+          </div>
+
+          <div style="flex:1; min-width:220px;">
+            <h4 style="margin:0 0 8px 0">No-Code & Tools</h4>
+            <div class="skills-list">
+              <span class="skill-pill">Zapier</span>
+              <span class="skill-pill">n8n</span>
+              <span class="skill-pill">Figma</span>
+              <span class="skill-pill">Canva</span>
+              <span class="skill-pill">Power BI</span>
+              <span class="skill-pill">GitHub</span>
+              <span class="skill-pill">Firebase</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-title reveal">
+        <h3>Education</h3>
+        <div class="section-desc">Formal background</div>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <div>
+            <div style="font-weight:700">Bachelor of Engineering — Information Science</div>
+            <div class="muted">Canara Engineering College, Bantwal — Expected Oct 2026</div>
+          </div>
+          <div style="text-align:right;color:var(--muted)">CGPA: 6.9 / 10</div>
+        </div>
+
+        <div class="timeline-item">
+          <div>
+            <div style="font-weight:700">Relevant Coursework</div>
+            <div class="muted">UI/UX Design (Figma), Low-Code Platforms, Data Visualization (Power BI)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements">
+      <div class="section-title reveal">
+        <h3>Achievements</h3>
+        <div class="section-desc">select highlights</div>
+      </div>
+
+      <div class="reveal" style="margin-top:12px">
+        <ul style="color:var(--muted);">
+          <li>1-star badge in Python on HackerRank</li>
+          <li>Participated in multiple college hackathons focused on ML & automation</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-title reveal">
+        <h3>Contact</h3>
+        <div class="section-desc">Let's collaborate — reach out</div>
+      </div>
+
+      <div class="contact-grid" style="margin-top:14px">
+        <form class="reveal" onsubmit="event.preventDefault(); alert('Thanks — I will get back to you! (This is a demo)')">
+          <label for="name">Name</label>
+          <input id="name" placeholder="Your name" required>
+
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@domain.com" required>
+
+          <label for="message">Message</label>
+          <textarea id="message" rows="5" placeholder="A short message..."></textarea>
+
+          <button type="submit" class="btn-primary">Send message</button>
+        </form>
+
+        <aside class="profile-card reveal">
+          <h4>Contact & Links</h4>
+          <p class="muted">Email: <a href="mailto:akashjavali297@gmail.com">akashjavali297@gmail.com</a></p>
+          <p class="muted">Phone: <a href="tel:+918884822189">+91 88848 22189</a></p>
+          <p class="muted">LinkedIn: <a href="https://www.linkedin.com/in/akash-javali/" target="_blank">linkedin.com/in/akash-javali</a></p>
+          <p class="muted">GitHub: <a href="https://github.com/AkashJavali001" target="_blank">github.com/AkashJavali001</a></p>
+
+          <div style="margin-top:12px">
+            <div style="font-weight:700">Availability</div>
+            <div class="muted">Open to internships, collaboration & freelance projects.</div>
+          </div>
+        </aside>
+      </div>
+
+    </section>
+
+    <footer>
+      © <span id="year"></span> Akash Javali — Built with no-code spirit • <span class="muted">Made for sharing</span>
+    </footer>
+  </main>
+
+  <script>
+    // fill year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // IntersectionObserver reveal for .reveal elements
+    (function(){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting) {
+            e.target.classList.add('in-view');
+            // optional: unobserve to keep performance
+            io.unobserve(e.target);
+          }
+        })
+      }, {threshold: 0.12});
+
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    })();
+
+    // tiny tilt effect on cards (mouse-based)
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('mousemove', (ev)=>{
+        const rect = card.getBoundingClientRect();
+        const x = ev.clientX - rect.left;
+        const y = ev.clientY - rect.top;
+        const cx = rect.width/2;
+        const cy = rect.height/2;
+        const dx = (x - cx) / cx;
+        const dy = (y - cy) / cy;
+        card.style.transform = `translateY(-6px) rotateX(${dy*2}deg) rotateY(${dx*3}deg) scale(1.01)`;
+      });
+      card.addEventListener('mouseleave', ()=> {
+        card.style.transform = '';
+      });
+    });
+
+    // Small keyboard accessibility: focus reveals
+    document.querySelectorAll('a, button, input, textarea').forEach(el=>{
+      el.addEventListener('focus', ()=> el.classList.add('in-view'));
+    });
+
+  </script>
+</body>
+</html>
